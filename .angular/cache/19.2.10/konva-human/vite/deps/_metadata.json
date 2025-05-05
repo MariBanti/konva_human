@@ -1,0 +1,52 @@
+{
+  "hash": "29cec0e6",
+  "configHash": "68b046a9",
+  "lockfileHash": "35a0a38e",
+  "browserHash": "512dac1d",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "54125e53",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "5e041ea6",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "a10890c4",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "1199303f",
+      "needsInterop": false
+    },
+    "konva": {
+      "src": "../../../../../../node_modules/konva/lib/index.js",
+      "file": "konva.js",
+      "fileHash": "7c779f77",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-FQ5CF3RF": {
+      "file": "chunk-FQ5CF3RF.js"
+    },
+    "chunk-VJJEIVYZ": {
+      "file": "chunk-VJJEIVYZ.js"
+    },
+    "chunk-XS2N3DBW": {
+      "file": "chunk-XS2N3DBW.js"
+    },
+    "chunk-3OV72XIM": {
+      "file": "chunk-3OV72XIM.js"
+    }
+  }
+}
