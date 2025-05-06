@@ -10,6 +10,16 @@ export class CreateHumanService {
   private stage: Konva.Stage;
   private layer: Konva.Layer;
   private centerX: number;
+  private anim: Konva.Animation;
+  
+  private leftLegGroup: Konva.Group;
+  private rightLegGroup: Konva.Group;
+  private leftShinGroup: Konva.Group;
+  private rightShinGroup: Konva.Group;
+  private leftArmGroup: Konva.Group;
+  private rightArmGroup: Konva.Group;
+  private leftForearmGroup: Konva.Group;
+  private rightForearmGroup: Konva.Group;
 
   private config = {
     colors: {
@@ -67,6 +77,8 @@ export class CreateHumanService {
     this.drawSkirt();
     this.drawArms();
     this.drawCollar();
+
+    this.playStartAnimation();
   }
 
   private drawHead(): void {
@@ -235,6 +247,14 @@ export class CreateHumanService {
     legGroup.add(hip);
     legGroup.add(shinGroup);
 
+    if (side === 'left') {
+      this.leftLegGroup = legGroup;
+      this.leftShinGroup = shinGroup;
+    } else {
+      this.rightLegGroup = legGroup;
+      this.rightShinGroup = shinGroup;
+    }
+
     this.layer.add(legGroup);
     this.setupDragControls(legGroup, shinGroup, side);
   }
@@ -363,6 +383,14 @@ export class CreateHumanService {
     armGroup.add(shoulder);
     armGroup.add(forearmGroup);
     this.layer.add(armGroup);
+
+    if (side === 'left') {
+      this.leftArmGroup = armGroup;
+      this.leftForearmGroup = forearmGroup;
+    } else {
+      this.rightArmGroup = armGroup;
+      this.rightForearmGroup = forearmGroup;
+    }
 
     this.setupArmDragControls(armGroup, forearmGroup, side);
   }
@@ -510,5 +538,58 @@ export class CreateHumanService {
     let realAngle = ((Math.atan2(dy, dx) * 180) / Math.PI - 90 + 360) % 360;
     if (realAngle > 180) realAngle -= 360;
     return Math.max(minAngle, Math.min(maxAngle, realAngle));
+  }
+
+  private playStartAnimation(): void {
+    const anim = new Konva.Animation((frame) => {
+      if (!frame) return;
+    
+      const time = frame.time / 1000; 
+      const phases = {
+        raise: 2,    
+        wave: 3,     
+        lower: 2,    
+        reset: 1    
+      };   
+    
+      const waveSpeed = 5;
+      const waveAmplitude = 5;
+    
+      if (time < phases.raise) {
+        const progress = time / phases.raise;
+        this.leftArmGroup.rotation(progress * 40);
+        this.leftForearmGroup.rotation(progress * 25);
+    
+        this.rightArmGroup.rotation(-progress * 10); 
+        
+        this.rightLegGroup.rotation(-progress * 5)
+        this.rightShinGroup.rotation(-progress * 20)
+      } else if (time < phases.raise + phases.wave) {
+        const waveTime = time - phases.raise;
+        const waveOffset = Math.sin(waveTime * waveSpeed) * waveAmplitude;
+    
+        this.leftArmGroup.rotation(40 + waveOffset);
+        this.leftForearmGroup.rotation(25 + waveOffset * 0.5);
+    
+        this.rightArmGroup.rotation(-10); 
+        
+        this.rightShinGroup.rotation(-5);
+        this.rightShinGroup.rotation(-20);
+      } else if (time < phases.raise + phases.wave + phases.lower) {
+        const lowerProgress = (time - (phases.raise + phases.wave)) / phases.lower;
+        
+        this.leftArmGroup.rotation(40 - lowerProgress * 40);
+        this.leftForearmGroup.rotation(25 - lowerProgress * 25);     
+  
+        this.rightArmGroup.rotation(-10 + lowerProgress * 10);
+
+        this.rightLegGroup.rotation(-5 + lowerProgress * 5)
+        this.rightShinGroup.rotation(-20 + lowerProgress * 20)
+      } else {
+        anim.stop();
+      }
+    }, this.layer);
+    
+    anim.start();
   }
 }
