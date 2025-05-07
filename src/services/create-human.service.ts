@@ -78,7 +78,7 @@ export class CreateHumanService {
     this.drawArms();
     this.drawCollar();
 
-    this.playStartAnimation();
+    this.playAnimation();
   }
 
   private drawHead(): void {
@@ -540,19 +540,19 @@ export class CreateHumanService {
     return Math.max(minAngle, Math.min(maxAngle, realAngle));
   }
 
-  private playStartAnimation(): void {
+  private playAnimation(): void {
     const anim = new Konva.Animation((frame) => {
       if (!frame) return;
     
       const time = frame.time / 1000; 
       const phases = {
-        raise: 2,    
-        wave: 3,     
-        lower: 2,    
+        raise: 1,    
+        wave: 2,     
+        lower: 1,    
         reset: 1    
       };   
     
-      const waveSpeed = 5;
+      const waveSpeed = 10;
       const waveAmplitude = 5;
     
       if (time < phases.raise) {
